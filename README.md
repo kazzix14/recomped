@@ -1,6 +1,7 @@
 # Recomped
 
 [![CI](https://github.com/kazzix14/recomped/actions/workflows/ci.yml/badge.svg)](https://github.com/kazzix14/recomped/actions/workflows/ci.yml)
+[![Storybook](https://raw.githubusercontent.com/storybook-js/brand/main/badge/badge-storybook.svg)](https://kazzix14.github.io/recomped)
 
 A customizable datetime picker web component built with Lit.
 
