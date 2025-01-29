@@ -1,6 +1,7 @@
 {
   "name": "recomped",
   "version": "1.0.0",
+  "description": "A customizable web component built with Lit",
   "type": "module",
   "main": "dist/datetime-picker.js",
   "module": "dist/datetime-picker.js",
@@ -8,6 +9,23 @@
   "files": [
     "dist"
   ],
+  "keywords": [
+    "web-components",
+    "datetime-picker",
+    "lit",
+    "typescript",
+    "custom-elements"
+  ],
+  "author": "kazzix14",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kazzix14/recomped.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kazzix14/recomped/issues"
+  },
+  "homepage": "https://kazzix14.github.io/recomped",
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",

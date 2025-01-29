@@ -1,0 +1,29 @@
+# Source
+src/
+e2e/
+
+# Config files
+.github/
+.storybook/
+biome.json
+playwright.config.ts
+tsconfig.json
+vite.config.ts
+
+# Development files
+storybook-static/
+playwright-report/
+test-results/
+
+# Editor
+.vscode/
+.idea/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Cache
+.npm/
+.eslintcache
+

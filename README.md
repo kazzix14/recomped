@@ -1,5 +1,6 @@
 # Recomped
 
+[![npm version](https://badge.fury.io/js/recomped.svg)](https://badge.fury.io/js/recomped)
 [![CI](https://github.com/kazzix14/recomped/actions/workflows/ci.yml/badge.svg)](https://github.com/kazzix14/recomped/actions/workflows/ci.yml)
 [![Storybook](https://raw.githubusercontent.com/storybook-js/brand/main/badge/badge-storybook.svg)](https://kazzix14.github.io/recomped)
 
@@ -78,6 +79,43 @@ npm run format:fix  # Fix formatting issues
 
 # Build
 npm run build
+```
+
+## Release
+
+1. Update version
+```bash
+# For patch release (bug fixes)
+npm version patch
+
+# For minor release (new features)
+npm version minor
+
+# For major release (breaking changes)
+npm version major
+```
+
+2. Build and verify package contents
+```bash
+# Build the package
+rm -rf dist && npm run build
+
+# Check package contents
+npm pack --dry-run
+```
+
+3. Publish to npm
+```bash
+# Login to npm (first time only)
+npm login
+
+# Publish package
+npm publish
+```
+
+4. Create and push git tag
+```bash
+git push origin main --tags
 ```
 
 ## Code Quality
