@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 
 test.describe("DatetimePicker", () => {
   test.beforeEach(async ({ page }) => {
@@ -174,7 +174,9 @@ test.describe("DatetimePicker", () => {
     // 入力値が正しくフォーマットされていることを確認
     const value = await input.inputValue();
     const today = new Date();
-    const expectedDate = `${today.getFullYear()}/${String(today.getMonth() + 1).padStart(2, "0")}/${dateCellText?.padStart(2, "0")}`;
+    const expectedDate = `${today.getFullYear()}/${String(
+      today.getMonth() + 1
+    ).padStart(2, "0")}/${dateCellText?.padStart(2, "0")}`;
     expect(value).toBe(`${expectedDate} 10:30`);
   });
 

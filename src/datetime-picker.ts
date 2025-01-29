@@ -1,4 +1,4 @@
-import { LitElement, html, css } from "lit";
+import { LitElement, css, html } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 export interface DateTimeState {
   year: number | null;
@@ -145,11 +145,13 @@ function formatDisplayDateTime(dateTime: DateTimeState | null): string {
   // dateStr だけ、timeStr だけ、両方、などで出力揃えたい場合は好みに応じて
   if (dateStr && timeStr) {
     return `${dateStr} ${timeStr}`;
-  } else if (dateStr) {
-    return dateStr;
-  } else {
-    return timeStr;
   }
+
+  if (dateStr) {
+    return dateStr;
+  }
+
+  return timeStr;
 }
 
 // ---- ここから Web Component 本体 ----
@@ -414,45 +416,45 @@ export class DatetimePicker extends LitElement {
   }
 
   private setupInputElements() {
-    document
-      .querySelectorAll("input[recomped-datetime-picker]")
-      .forEach((input) => {
-        if (input instanceof HTMLInputElement) {
-          // Create bound event listeners
-          const listeners = {
-            focus: () => this.open(input),
-            input: (e: Event) => this.handleInput(e),
-            change: (e: Event) => this.handleChange(e),
-          };
+    for (const input of document.querySelectorAll(
+      "input[recomped-datetime-picker]"
+    )) {
+      if (input instanceof HTMLInputElement) {
+        // Create bound event listeners
+        const listeners = {
+          focus: () => this.open(input),
+          input: (e: Event) => this.handleInput(e),
+          change: (e: Event) => this.handleChange(e),
+        };
 
-          // Store the listeners for later cleanup
-          this.inputEventListeners.set(input, listeners);
+        // Store the listeners for later cleanup
+        this.inputEventListeners.set(input, listeners);
 
-          // Add the event listeners
-          input.addEventListener("focus", listeners.focus);
-          input.addEventListener("input", listeners.input);
-          input.addEventListener("change", listeners.change);
-        }
-      });
+        // Add the event listeners
+        input.addEventListener("focus", listeners.focus);
+        input.addEventListener("input", listeners.input);
+        input.addEventListener("change", listeners.change);
+      }
+    }
   }
 
   private cleanupInputElements() {
-    document
-      .querySelectorAll("input[recomped-datetime-picker]")
-      .forEach((input) => {
-        if (input instanceof HTMLInputElement) {
-          const listeners = this.inputEventListeners.get(input);
-          if (listeners) {
-            // Remove event listeners using stored references
-            input.removeEventListener("focus", listeners.focus);
-            input.removeEventListener("input", listeners.input);
-            input.removeEventListener("change", listeners.change);
+    for (const input of document.querySelectorAll(
+      "input[recomped-datetime-picker]"
+    )) {
+      if (input instanceof HTMLInputElement) {
+        const listeners = this.inputEventListeners.get(input);
+        if (listeners) {
+          // Remove event listeners using stored references
+          input.removeEventListener("focus", listeners.focus);
+          input.removeEventListener("input", listeners.input);
+          input.removeEventListener("change", listeners.change);
 
-            // Remove from the Map
-            this.inputEventListeners.delete(input);
-          }
+          // Remove from the Map
+          this.inputEventListeners.delete(input);
         }
-      });
+      }
+    }
   }
 
   public open(input: HTMLInputElement) {
@@ -695,9 +697,9 @@ export class DatetimePicker extends LitElement {
       const isSaturday = i === 6;
       days.push(
         html`<div
-          class="day-cell out-of-month ${isSunday ? "sunday" : ""} ${isSaturday
-            ? "saturday"
-            : ""}">
+          class="day-cell out-of-month ${isSunday ? "sunday" : ""} ${
+            isSaturday ? "saturday" : ""
+          }">
           ${day}
         </div>`
       );
@@ -751,9 +753,9 @@ export class DatetimePicker extends LitElement {
       const isSaturday = dayOfWeek === 6;
       days.push(
         html`<div
-          class="day-cell out-of-month ${isSunday ? "sunday" : ""} ${isSaturday
-            ? "saturday"
-            : ""}">
+          class="day-cell out-of-month ${isSunday ? "sunday" : ""} ${
+            isSaturday ? "saturday" : ""
+          }">
           ${i}
         </div>`
       );
@@ -856,9 +858,9 @@ export class DatetimePicker extends LitElement {
           { length: 12 },
           (_, i) => html`
             <button
-              class="time-button ${this.selectedHour === i + 12
-                ? "selected"
-                : ""}"
+              class="time-button ${
+                this.selectedHour === i + 12 ? "selected" : ""
+              }"
               @click=${(e: Event) => this.handleHourClick(i + 12, e)}>
               ${(() => {
                 const hour = this.locale === "ja" ? i + 12 : i === 0 ? 12 : i;
@@ -880,9 +882,9 @@ export class DatetimePicker extends LitElement {
           const mVal = i * 5;
           return html`
             <button
-              class="time-button ${this.selectedMinute === mVal
-                ? "selected"
-                : ""}"
+              class="time-button ${
+                this.selectedMinute === mVal ? "selected" : ""
+              }"
               @click=${(e: Event) => this.handleMinuteClick(mVal, e)}>
               ${mVal}${this.locale === "ja" ? "分" : ""}
             </button>

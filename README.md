@@ -84,4 +84,3 @@ This project uses [Biome](https://biomejs.dev/) for linting and formatting. The 
 ## License
 
 MIT
-
