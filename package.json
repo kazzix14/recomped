@@ -15,12 +15,17 @@
     "test:e2e:ui": "playwright test --ui",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "prepare": "npm run build"
+    "prepare": "npm run build",
+    "lint": "biome check .",
+    "lint:fix": "biome check --apply .",
+    "format": "biome format .",
+    "format:fix": "biome format --write ."
   },
   "dependencies": {
     "lit": "^2.7.0"
   },
   "devDependencies": {
+    "@biomejs/biome": "1.5.3",
     "@playwright/test": "^1.50.0",
     "@storybook/addon-essentials": "^7.6.20",
     "@storybook/web-components": "^7.6.20",

@@ -65,10 +65,23 @@ npm run test:e2e
 # Run E2E tests with UI
 npm run test:e2e:ui
 
+# Lint
+npm run lint        # Check for issues
+npm run lint:fix    # Fix issues automatically
+
+# Format
+npm run format      # Check formatting
+npm run format:fix  # Fix formatting issues
+
 # Build
 npm run build
 ```
 
+## Code Quality
+
+This project uses [Biome](https://biomejs.dev/) for linting and formatting. The configuration can be found in `biome.json`.
+
 ## License
 
 MIT
+
