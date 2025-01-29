@@ -420,20 +420,7 @@ export class DatetimePicker extends LitElement {
       "input[data-recomped-datetime-picker]"
     )) {
       if (input instanceof HTMLInputElement) {
-        // Create bound event listeners
-        const listeners = {
-          focus: () => this.open(input),
-          input: (e: Event) => this.handleInput(e),
-          change: (e: Event) => this.handleChange(e),
-        };
-
-        // Store the listeners for later cleanup
-        this.inputEventListeners.set(input, listeners);
-
-        // Add the event listeners
-        input.addEventListener("focus", listeners.focus);
-        input.addEventListener("input", listeners.input);
-        input.addEventListener("change", listeners.change);
+        this.setupInput(input);
       }
     }
   }
@@ -443,17 +430,38 @@ export class DatetimePicker extends LitElement {
       "input[data-recomped-datetime-picker]"
     )) {
       if (input instanceof HTMLInputElement) {
-        const listeners = this.inputEventListeners.get(input);
-        if (listeners) {
-          // Remove event listeners using stored references
-          input.removeEventListener("focus", listeners.focus);
-          input.removeEventListener("input", listeners.input);
-          input.removeEventListener("change", listeners.change);
-
-          // Remove from the Map
-          this.inputEventListeners.delete(input);
-        }
+        this.cleanupInput(input);
       }
+    }
+  }
+
+  public setupInput(input: HTMLInputElement) {
+    // Create bound event listeners
+    const listeners = {
+      focus: () => this.open(input),
+      input: (e: Event) => this.handleInput(e),
+      change: (e: Event) => this.handleChange(e),
+    };
+
+    // Store the listeners for later cleanup
+    this.inputEventListeners.set(input, listeners);
+
+    // Add the event listeners
+    input.addEventListener("focus", listeners.focus);
+    input.addEventListener("input", listeners.input);
+    input.addEventListener("change", listeners.change);
+  }
+
+  public cleanupInput(input: HTMLInputElement) {
+    const listeners = this.inputEventListeners.get(input);
+    if (listeners) {
+      // Remove event listeners using stored references
+      input.removeEventListener("focus", listeners.focus);
+      input.removeEventListener("input", listeners.input);
+      input.removeEventListener("change", listeners.change);
+
+      // Remove from the Map
+      this.inputEventListeners.delete(input);
     }
   }
 
@@ -697,9 +705,9 @@ export class DatetimePicker extends LitElement {
       const isSaturday = i === 6;
       days.push(
         html`<div
-          class="day-cell out-of-month ${isSunday ? "sunday" : ""} ${
-            isSaturday ? "saturday" : ""
-          }">
+          class="day-cell out-of-month ${isSunday ? "sunday" : ""} ${isSaturday
+            ? "saturday"
+            : ""}">
           ${day}
         </div>`
       );
@@ -753,9 +761,9 @@ export class DatetimePicker extends LitElement {
       const isSaturday = dayOfWeek === 6;
       days.push(
         html`<div
-          class="day-cell out-of-month ${isSunday ? "sunday" : ""} ${
-            isSaturday ? "saturday" : ""
-          }">
+          class="day-cell out-of-month ${isSunday ? "sunday" : ""} ${isSaturday
+            ? "saturday"
+            : ""}">
           ${i}
         </div>`
       );
@@ -858,9 +866,9 @@ export class DatetimePicker extends LitElement {
           { length: 12 },
           (_, i) => html`
             <button
-              class="time-button ${
-                this.selectedHour === i + 12 ? "selected" : ""
-              }"
+              class="time-button ${this.selectedHour === i + 12
+                ? "selected"
+                : ""}"
               @click=${(e: Event) => this.handleHourClick(i + 12, e)}>
               ${(() => {
                 const hour = this.locale === "ja" ? i + 12 : i === 0 ? 12 : i;
@@ -882,9 +890,9 @@ export class DatetimePicker extends LitElement {
           const mVal = i * 5;
           return html`
             <button
-              class="time-button ${
-                this.selectedMinute === mVal ? "selected" : ""
-              }"
+              class="time-button ${this.selectedMinute === mVal
+                ? "selected"
+                : ""}"
               @click=${(e: Event) => this.handleMinuteClick(mVal, e)}>
               ${mVal}${this.locale === "ja" ? "分" : ""}
             </button>

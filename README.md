@@ -4,7 +4,7 @@
 [![CI](https://github.com/kazzix14/recomped/actions/workflows/ci.yml/badge.svg)](https://github.com/kazzix14/recomped/actions/workflows/ci.yml)
 [![Storybook](https://raw.githubusercontent.com/storybook-js/brand/main/badge/badge-storybook.svg)](https://kazzix14.github.io/recomped)
 
-A customizable web component built with Lit.
+A customizable datetime picker web component built with Lit.
 
 ## Features
 
@@ -14,6 +14,7 @@ A customizable web component built with Lit.
 - 🎨 Customizable styles via CSS variables
 - 🎯 Single/double digit input support
 - 🔄 Today button and clear functionality
+- 🔄 Dynamic input initialization support (for Turbo, etc.)
 
 ## Installation
 
@@ -22,6 +23,8 @@ npm install recomped
 ```
 
 ## Usage
+
+### Basic Usage
 
 ```html
 <!-- Import the component -->
@@ -36,6 +39,27 @@ npm install recomped
   placeholder="YYYY/MM/DD HH:mm"
   value="2024/01/01 10:30"
 />
+```
+
+### Dynamic Initialization
+
+For frameworks like Turbo that dynamically load content, you can manually initialize and cleanup input elements:
+
+```typescript
+import { setupDatetimePickerInput, cleanupDatetimePickerInput } from 'recomped';
+
+// Initialize the component once
+import { initDatetimePicker } from 'recomped';
+initDatetimePicker();
+
+// Setup a dynamically added input
+const input = document.querySelector('input[data-recomped-datetime-picker]');
+if (input instanceof HTMLInputElement) {
+  setupDatetimePickerInput(input);
+}
+
+// Cleanup when removing the input
+cleanupDatetimePickerInput(input);
 ```
 
 ### CSS Variables
