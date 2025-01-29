@@ -9,7 +9,7 @@ test.describe("DatetimePicker", () => {
     await page.waitForLoadState("networkidle");
 
     // Press 'f' key to enter fullscreen mode
-    await page.keyboard.press("f");
+    await page.getByLabel("Go full screen").click();
   });
 
   test("should open picker on input focus", async ({ page }) => {
