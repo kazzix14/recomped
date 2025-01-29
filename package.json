@@ -1,5 +1,5 @@
 {
-  "name": "@recomped/datetime-picker",
+  "name": "recomped",
   "version": "1.0.0",
   "type": "module",
   "main": "dist/datetime-picker.js",
