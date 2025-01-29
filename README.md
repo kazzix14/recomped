@@ -1,5 +1,7 @@
 # Recomped
 
+[![CI](https://github.com/kazzix14/recomped/actions/workflows/ci.yml/badge.svg)](https://github.com/kazzix14/recomped/actions/workflows/ci.yml)
+
 A customizable datetime picker web component built with Lit.
 
 ## Features
@@ -84,3 +86,4 @@ This project uses [Biome](https://biomejs.dev/) for linting and formatting. The 
 ## License
 
 MIT
+
