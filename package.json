@@ -3,9 +3,9 @@
   "version": "1.0.2",
   "description": "A customizable web component built with Lit",
   "type": "module",
-  "main": "dist/datetime-picker.js",
-  "module": "dist/datetime-picker.js",
-  "types": "dist/types/index.d.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
