@@ -32,7 +32,7 @@ npm install recomped
 
 <!-- Use the component -->
 <input
-  recomped-datetime-picker
+  data-recomped-datetime-picker
   placeholder="YYYY/MM/DD HH:mm"
   value="2024/01/01 10:30"
 />

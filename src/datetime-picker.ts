@@ -417,7 +417,7 @@ export class DatetimePicker extends LitElement {
 
   private setupInputElements() {
     for (const input of document.querySelectorAll(
-      "input[recomped-datetime-picker]"
+      "input[data-recomped-datetime-picker]"
     )) {
       if (input instanceof HTMLInputElement) {
         // Create bound event listeners
@@ -440,7 +440,7 @@ export class DatetimePicker extends LitElement {
 
   private cleanupInputElements() {
     for (const input of document.querySelectorAll(
-      "input[recomped-datetime-picker]"
+      "input[data-recomped-datetime-picker]"
     )) {
       if (input instanceof HTMLInputElement) {
         const listeners = this.inputEventListeners.get(input);

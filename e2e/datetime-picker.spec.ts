@@ -14,7 +14,7 @@ test.describe("DatetimePicker", () => {
 
   test("should open picker on input focus", async ({ page }) => {
     const frame = page.frameLocator("#storybook-preview-iframe").first();
-    const input = frame.locator("input[recomped-datetime-picker]").first();
+    const input = frame.locator("input[data-recomped-datetime-picker]").first();
 
     await expect(input).toBeVisible();
     await input.click();
@@ -27,7 +27,7 @@ test.describe("DatetimePicker", () => {
 
   test("should select a date and time", async ({ page }) => {
     const frame = page.frameLocator("#storybook-preview-iframe").first();
-    const input = frame.locator("input[recomped-datetime-picker]").first();
+    const input = frame.locator("input[data-recomped-datetime-picker]").first();
 
     await input.click();
 
@@ -60,7 +60,7 @@ test.describe("DatetimePicker", () => {
 
   test("should clear input value", async ({ page }) => {
     const frame = page.frameLocator("#storybook-preview-iframe").first();
-    const input = frame.locator("input[recomped-datetime-picker]").first();
+    const input = frame.locator("input[data-recomped-datetime-picker]").first();
 
     // First set a value
     await input.click();
@@ -83,7 +83,7 @@ test.describe("DatetimePicker", () => {
 
   test("should set today's date", async ({ page }) => {
     const frame = page.frameLocator("#storybook-preview-iframe").first();
-    const input = frame.locator("input[recomped-datetime-picker]").first();
+    const input = frame.locator("input[data-recomped-datetime-picker]").first();
 
     await input.click();
 
@@ -100,7 +100,7 @@ test.describe("DatetimePicker", () => {
 
   test("should navigate between months", async ({ page }) => {
     const frame = page.frameLocator("#storybook-preview-iframe").first();
-    const input = frame.locator("input[recomped-datetime-picker]").first();
+    const input = frame.locator("input[data-recomped-datetime-picker]").first();
 
     await input.click();
 
@@ -128,7 +128,7 @@ test.describe("DatetimePicker", () => {
 
   test("should update picker UI when typing date", async ({ page }) => {
     const frame = page.frameLocator("#storybook-preview-iframe").first();
-    const input = frame.locator("input[recomped-datetime-picker]").first();
+    const input = frame.locator("input[data-recomped-datetime-picker]").first();
 
     await input.click();
     await input.fill("2024/02/15");
@@ -144,7 +144,7 @@ test.describe("DatetimePicker", () => {
     page,
   }) => {
     const frame = page.frameLocator("#storybook-preview-iframe").first();
-    const input = frame.locator("input[recomped-datetime-picker]").first();
+    const input = frame.locator("input[data-recomped-datetime-picker]").first();
 
     await input.click();
 
@@ -184,7 +184,7 @@ test.describe("DatetimePicker", () => {
     page,
   }) => {
     const frame = page.frameLocator("#storybook-preview-iframe").first();
-    const input = frame.locator("input[recomped-datetime-picker]").first();
+    const input = frame.locator("input[data-recomped-datetime-picker]").first();
 
     // まず有効な値を設定
     await input.click();
@@ -202,7 +202,7 @@ test.describe("DatetimePicker", () => {
 
   test("should handle partial and invalid inputs", async ({ page }) => {
     const frame = page.frameLocator("#storybook-preview-iframe").first();
-    const input = frame.locator("input[recomped-datetime-picker]").first();
+    const input = frame.locator("input[data-recomped-datetime-picker]").first();
 
     // まず有効な値を設定
     await input.click();
