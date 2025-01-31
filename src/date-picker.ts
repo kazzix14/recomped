@@ -83,12 +83,12 @@ export class DatePicker extends LitElement {
     .picker-container {
       position: fixed;
       z-index: 1000;
-      background: var(--dt-background);
-      border: 1px solid var(--dt-border-color);
-      border-radius: var(--dt-border-radius);
+      background: var(--dt-background, white);
+      border: 1px solid var(--dt-border-color, #e5e7eb);
+      border-radius: var(--dt-border-radius, 0.5rem);
       padding: 1rem;
       display: none;
-      color: var(--dt-text);
+      color: var(--dt-text, #6b7280);
       box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
     }
     .picker-container.open {
@@ -100,7 +100,7 @@ export class DatePicker extends LitElement {
       justify-content: space-between;
       align-items: center;
       margin-bottom: 0.5rem;
-      color: var(--dt-header-text);
+      color: var(--dt-header-text, #6b7280);
     }
 
     .calendar-nav-button {
@@ -108,12 +108,12 @@ export class DatePicker extends LitElement {
       border: none;
       cursor: pointer;
       padding: 0.25rem 0.5rem;
-      color: var(--dt-text);
+      color: var(--dt-text, #6b7280);
       border-radius: 0.25rem;
     }
 
     .calendar-nav-button:hover {
-      background: var(--dt-hover-bg);
+      background: var(--dt-hover-bg, #f3f4f6);
     }
 
     .calendar-grid {
@@ -124,7 +124,7 @@ export class DatePicker extends LitElement {
     }
 
     .weekday-header {
-      color: var(--dt-header-text);
+      color: var(--dt-header-text, #6b7280);
       font-size: 0.875rem;
       padding: 0.25rem;
     }
@@ -137,11 +137,11 @@ export class DatePicker extends LitElement {
     }
 
     .day-cell:hover {
-      background: var(--dt-hover-bg);
+      background: var(--dt-hover-bg, #f3f4f6);
     }
 
     .day-cell.selected {
-      background: var(--dt-selected-bg);
+      background: var(--dt-selected-bg, rgb(235, 245, 255));
     }
 
     .day-cell.today {
@@ -149,16 +149,16 @@ export class DatePicker extends LitElement {
     }
 
     .day-cell.out-of-month {
-      color: var(--dt-text);
+      color: var(--dt-text, #6b7280);
       opacity: 0.5;
     }
 
     .day-cell.sunday {
-      color: var(--dt-sunday-color);
+      color: var(--dt-sunday-color, #dc2626);
     }
 
     .day-cell.saturday {
-      color: var(--dt-saturday-color);
+      color: var(--dt-saturday-color, #2563eb);
     }
 
     .button-container {
@@ -170,17 +170,17 @@ export class DatePicker extends LitElement {
     .today-button,
     .clear-button {
       background: none;
-      border: 1px solid var(--dt-border-color);
+      border: 1px solid var(--dt-border-color, #e5e7eb);
       padding: 0.25rem 0.5rem;
       border-radius: 0.25rem;
       cursor: pointer;
-      color: var(--dt-text);
+      color: var(--dt-text, #6b7280);
       font-size: 0.875rem;
     }
 
     .today-button:hover,
     .clear-button:hover {
-      background: var(--dt-hover-bg);
+      background: var(--dt-hover-bg, #f3f4f6);
     }
   `;
 
