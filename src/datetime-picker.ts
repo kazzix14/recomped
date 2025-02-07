@@ -708,9 +708,9 @@ export class DatetimePicker extends LitElement {
       const isSaturday = i === 6;
       days.push(
         html`<div
-          class="day-cell out-of-month ${isSunday ? "sunday" : ""} ${isSaturday
-            ? "saturday"
-            : ""}">
+          class="day-cell out-of-month ${isSunday ? "sunday" : ""} ${
+            isSaturday ? "saturday" : ""
+          }">
           ${day}
         </div>`
       );
@@ -764,9 +764,9 @@ export class DatetimePicker extends LitElement {
       const isSaturday = dayOfWeek === 6;
       days.push(
         html`<div
-          class="day-cell out-of-month ${isSunday ? "sunday" : ""} ${isSaturday
-            ? "saturday"
-            : ""}">
+          class="day-cell out-of-month ${isSunday ? "sunday" : ""} ${
+            isSaturday ? "saturday" : ""
+          }">
           ${i}
         </div>`
       );
@@ -869,9 +869,9 @@ export class DatetimePicker extends LitElement {
           { length: 12 },
           (_, i) => html`
             <button
-              class="time-button ${this.selectedHour === i + 12
-                ? "selected"
-                : ""}"
+              class="time-button ${
+                this.selectedHour === i + 12 ? "selected" : ""
+              }"
               @click=${(e: Event) => this.handleHourClick(i + 12, e)}>
               ${(() => {
                 const hour = this.locale === "ja" ? i + 12 : i === 0 ? 12 : i;
@@ -893,9 +893,9 @@ export class DatetimePicker extends LitElement {
           const mVal = i * 5;
           return html`
             <button
-              class="time-button ${this.selectedMinute === mVal
-                ? "selected"
-                : ""}"
+              class="time-button ${
+                this.selectedMinute === mVal ? "selected" : ""
+              }"
               @click=${(e: Event) => this.handleMinuteClick(mVal, e)}>
               ${mVal}${this.locale === "ja" ? "分" : ""}
             </button>

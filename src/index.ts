@@ -1,5 +1,5 @@
-import { DatetimePicker, initDatetimePicker } from "./datetime-picker";
 import { DatePicker, initDatePicker } from "./date-picker";
+import { DatetimePicker, initDatetimePicker } from "./datetime-picker";
 export { DatetimePicker, initDatetimePicker, DatePicker, initDatePicker };
 export type { DateTimeState, DateTimeChangeEvent } from "./datetime-picker";
 export type { DateState, DateChangeEvent } from "./date-picker";

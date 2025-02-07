@@ -194,7 +194,7 @@ export class DatePicker extends LitElement {
   `;
 
   @property({ type: String })
-  locale: string = "ja";
+  locale = "ja";
 
   @state()
   private year: number = new Date().getFullYear();
@@ -206,7 +206,7 @@ export class DatePicker extends LitElement {
   private selectedDate?: number;
 
   @state()
-  private isOpen: boolean = false;
+  private isOpen = false;
 
   @state()
   private lastValidDate: DateState | null = null;
@@ -492,9 +492,9 @@ export class DatePicker extends LitElement {
       const isSaturday = i === 6;
       days.push(
         html`<div
-          class="day-cell out-of-month ${isSunday ? "sunday" : ""} ${isSaturday
-            ? "saturday"
-            : ""}">
+          class="day-cell out-of-month ${isSunday ? "sunday" : ""} ${
+            isSaturday ? "saturday" : ""
+          }">
           ${day}
         </div>`
       );
@@ -536,9 +536,9 @@ export class DatePicker extends LitElement {
       const isSaturday = dayOfWeek === 6;
       days.push(
         html`<div
-          class="day-cell out-of-month ${isSunday ? "sunday" : ""} ${isSaturday
-            ? "saturday"
-            : ""}">
+          class="day-cell out-of-month ${isSunday ? "sunday" : ""} ${
+            isSaturday ? "saturday" : ""
+          }">
           ${i}
         </div>`
       );
@@ -575,11 +575,9 @@ export class DatePicker extends LitElement {
             (weekday, i) =>
               html`
                 <div
-                  class="weekday-header ${i === 0
-                    ? "sunday"
-                    : i === 6
-                    ? "saturday"
-                    : ""}">
+                  class="weekday-header ${
+                    i === 0 ? "sunday" : i === 6 ? "saturday" : ""
+                  }">
                   ${weekday}
                 </div>
               `
