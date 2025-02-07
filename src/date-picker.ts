@@ -129,6 +129,14 @@ export class DatePicker extends LitElement {
       padding: 0.25rem;
     }
 
+    .weekday-header.sunday {
+      color: var(--dt-sunday-color, #dc2626);
+    }
+
+    .weekday-header.saturday {
+      color: var(--dt-saturday-color, #2563eb);
+    }
+
     .day-cell {
       padding: 0.375rem;
       cursor: pointer;
@@ -163,8 +171,9 @@ export class DatePicker extends LitElement {
 
     .button-container {
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-end;
       margin-top: 0.5rem;
+      gap: 0.5rem;
     }
 
     .today-button,
@@ -563,7 +572,17 @@ export class DatePicker extends LitElement {
 
         <div class="calendar-grid">
           ${this.getWeekdayHeaders().map(
-            (weekday) => html` <div class="weekday-header">${weekday}</div> `
+            (weekday, i) =>
+              html`
+                <div
+                  class="weekday-header ${i === 0
+                    ? "sunday"
+                    : i === 6
+                    ? "saturday"
+                    : ""}">
+                  ${weekday}
+                </div>
+              `
           )}
           ${this.renderDays()}
         </div>
