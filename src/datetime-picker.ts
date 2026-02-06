@@ -326,12 +326,44 @@ export class DatetimePicker extends LitElement {
       display: flex;
       flex-direction: column;
     }
+    .time-display-row {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
     .time-display {
       text-align: center;
       font-size: 1.25rem;
       font-weight: bold;
       color: var(--dt-text, #1f2937);
-      margin-bottom: 0.75rem;
+    }
+    .time-shortcut-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: none;
+      border: 1px solid var(--dt-border-color, #e5e7eb);
+      border-radius: 0.25rem;
+      cursor: pointer;
+      color: var(--dt-text, #6b7280);
+      padding: 0.25rem;
+      line-height: 1;
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+    .time-shortcut-button:hover {
+      background: var(--dt-hover-bg, #f3f4f6);
+    }
+    .time-shortcut-button svg {
+      width: 0.75rem;
+      height: 0.75rem;
+    }
+    .time-shortcut-button:first-child {
+      justify-self: start;
+    }
+    .time-shortcut-button:last-child {
+      justify-self: end;
     }
     .time-grid {
       display: grid;
@@ -572,6 +604,22 @@ export class DatetimePicker extends LitElement {
       month: this.lastValidDateTime?.month ?? null,
       date: this.lastValidDateTime?.date ?? null,
       hour: this.selectedHour ?? null,
+      minute,
+    };
+    this.lastValidDateTime = newDateTime;
+    this.updatePickerState(newDateTime);
+    this.updateInputValue(newDateTime);
+  }
+
+  private handleTimeShortcut(hour: number, minute: number, event: Event) {
+    event.stopPropagation();
+    if (!this.targetInput) return;
+
+    const newDateTime: DateTimeState = {
+      year: this.lastValidDateTime?.year ?? null,
+      month: this.lastValidDateTime?.month ?? null,
+      date: this.lastValidDateTime?.date ?? null,
+      hour,
       minute,
     };
     this.lastValidDateTime = newDateTime;
@@ -842,7 +890,27 @@ export class DatetimePicker extends LitElement {
   private renderTimePicker() {
     return html`
       <div class="time-picker">
-        <div class="time-display">${this.formatTime()}</div>
+        <div class="time-display-row">
+          <button
+            class="time-shortcut-button"
+            title="00:00"
+            @click=${(e: Event) => this.handleTimeShortcut(0, 0, e)}>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M4 2a1 1 0 0 0-1 1v10a1 1 0 0 0 2 0V3a1 1 0 0 0-1-1z"/>
+              <path d="M12.7 3.3a1 1 0 0 0-1.4 0L7.3 7.3a1 1 0 0 0 0 1.4l4 4a1 1 0 0 0 1.4-1.4L9.4 8l3.3-3.3a1 1 0 0 0 0-1.4z"/>
+            </svg>
+          </button>
+          <div class="time-display">${this.formatTime()}</div>
+          <button
+            class="time-shortcut-button"
+            title="23:59"
+            @click=${(e: Event) => this.handleTimeShortcut(23, 59, e)}>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M12 2a1 1 0 0 1 1 1v10a1 1 0 0 1-2 0V3a1 1 0 0 1 1-1z"/>
+              <path d="M3.3 3.3a1 1 0 0 1 1.4 0L8.7 7.3a1 1 0 0 1 0 1.4l-4 4a1 1 0 0 1-1.4-1.4L6.6 8 3.3 4.7a1 1 0 0 1 0-1.4z"/>
+            </svg>
+          </button>
+        </div>
         <div class="time-grid">
           ${this.renderHoursPicker()} ${this.renderMinutesPicker()}
         </div>
