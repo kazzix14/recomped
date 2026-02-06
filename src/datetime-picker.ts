@@ -1,12 +1,6 @@
 import { LitElement, css, html } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
-export interface DateTimeState {
-  year: number | null;
-  month: number | null;
-  date: number | null;
-  hour: number | null;
-  minute: number | null;
-}
+import { DateTimeState } from "./types";
 
 export interface DateTimeChangeEvent extends CustomEvent {
   detail: {
