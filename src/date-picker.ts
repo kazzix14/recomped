@@ -81,7 +81,7 @@ export class DatePicker extends LitElement {
     }
 
     .picker-container {
-      position: fixed;
+      position: absolute;
       z-index: 1000;
       background: var(--dt-background, white);
       border: 1px solid var(--dt-border-color, #e5e7eb);
@@ -196,6 +196,9 @@ export class DatePicker extends LitElement {
   @property({ type: String })
   locale = "ja";
 
+  @property({ type: Boolean })
+  disabled = false;
+
   @state()
   private year: number = new Date().getFullYear();
 
@@ -222,6 +225,9 @@ export class DatePicker extends LitElement {
   > = new Map();
 
   private boundHandleDocumentClick = this.handleDocumentClick.bind(this);
+  private boundHandleKeydown = this.handleKeydown.bind(this);
+  private boundHandleResize = this.handleResize.bind(this);
+  private resizeRafId = 0;
 
   connectedCallback() {
     super.connectedCallback();
@@ -231,6 +237,9 @@ export class DatePicker extends LitElement {
   disconnectedCallback() {
     super.disconnectedCallback();
     this.removeDocumentClickHandler();
+    document.removeEventListener("keydown", this.boundHandleKeydown);
+    window.removeEventListener("resize", this.boundHandleResize);
+    cancelAnimationFrame(this.resizeRafId);
     this.cleanupInputElements();
   }
 
@@ -279,7 +288,10 @@ export class DatePicker extends LitElement {
   }
 
   public open(input: HTMLInputElement) {
-    console.log("open");
+    if (this.disabled) return;
+    if (this.isOpen && input === this.targetInput) return;
+    if (this.isOpen) this.close();
+
     this.targetInput = input;
     this.isOpen = true;
 
@@ -297,30 +309,39 @@ export class DatePicker extends LitElement {
       this.lastValidDate = null;
     }
 
-    console.log("open2");
     this.updatePickerPosition(input);
     this.addDocumentClickHandler();
+    document.addEventListener("keydown", this.boundHandleKeydown);
+    window.addEventListener("resize", this.boundHandleResize);
   }
 
   private updatePickerPosition(input: HTMLInputElement) {
-    console.log("updatePickerPosition");
     const rect = input.getBoundingClientRect();
     const picker = this.shadowRoot?.querySelector(
       ".picker-container"
     ) as HTMLElement;
-    console.log("updatePickerPosition2");
-    // .picker-containerがなさそう。
-    console.log(picker);
     if (!picker) return;
 
     const viewportHeight = window.innerHeight;
+    const viewportWidth = window.innerWidth;
     const pickerHeight = picker.offsetHeight;
+    const pickerWidth = picker.offsetWidth;
 
-    picker.style.left = `${rect.left}px`;
+    // 横位置: 左右はみ出し対応
+    let left = rect.left + window.scrollX;
+    if (rect.left + pickerWidth > viewportWidth) {
+      left = rect.right + window.scrollX - pickerWidth;
+    }
+    if (left < window.scrollX) {
+      left = window.scrollX;
+    }
+    picker.style.left = `${left}px`;
+
+    // 縦位置: 下方向に収まらない場合は上方向に配置
     if (rect.bottom + pickerHeight > viewportHeight) {
-      picker.style.top = `${rect.top - pickerHeight - 8}px`;
+      picker.style.top = `${rect.top + window.scrollY - pickerHeight - 8}px`;
     } else {
-      picker.style.top = `${rect.bottom + 8}px`;
+      picker.style.top = `${rect.bottom + window.scrollY + 8}px`;
     }
   }
 
@@ -445,6 +466,24 @@ export class DatePicker extends LitElement {
   private close() {
     this.isOpen = false;
     this.removeDocumentClickHandler();
+    document.removeEventListener("keydown", this.boundHandleKeydown);
+    window.removeEventListener("resize", this.boundHandleResize);
+    cancelAnimationFrame(this.resizeRafId);
+  }
+
+  private handleKeydown(e: KeyboardEvent) {
+    if (e.key === "Escape") {
+      this.close();
+    }
+  }
+
+  private handleResize() {
+    cancelAnimationFrame(this.resizeRafId);
+    this.resizeRafId = requestAnimationFrame(() => {
+      if (this.targetInput) {
+        this.updatePickerPosition(this.targetInput);
+      }
+    });
   }
 
   private isToday(date: number): boolean {

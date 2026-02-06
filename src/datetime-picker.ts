@@ -1,12 +1,6 @@
 import { LitElement, css, html } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
-export interface DateTimeState {
-  year: number | null;
-  month: number | null;
-  date: number | null;
-  hour: number | null;
-  minute: number | null;
-}
+import { DateTimeState } from "./types";
 
 export interface DateTimeChangeEvent extends CustomEvent {
   detail: {
@@ -163,6 +157,9 @@ export class DatetimePicker extends LitElement {
   @state() private isOpen = false;
   @state() private isEditing = false;
   private boundHandleDocumentClick: (e: MouseEvent) => void;
+  private boundHandleKeydown: (e: KeyboardEvent) => void;
+  private boundHandleResize: () => void;
+  private resizeRafId = 0;
   private targetInput: HTMLInputElement | null = null;
   private inputEventListeners: Map<
     HTMLInputElement,
@@ -190,6 +187,8 @@ export class DatetimePicker extends LitElement {
     this.lastValidDateTime = null;
     this.currentInputValue = "";
     this.boundHandleDocumentClick = this.handleDocumentClick.bind(this);
+    this.boundHandleKeydown = this.handleKeydown.bind(this);
+    this.boundHandleResize = this.handleResize.bind(this);
   }
 
   // ----------------------------------------
@@ -200,7 +199,7 @@ export class DatetimePicker extends LitElement {
       display: contents;
     }
     .picker-container {
-      position: fixed;
+      position: absolute;
       z-index: 9999;
       background: var(--dt-background, white);
       border-radius: var(--dt-border-radius, 0.5rem);
@@ -412,6 +411,9 @@ export class DatetimePicker extends LitElement {
   disconnectedCallback() {
     super.disconnectedCallback();
     this.removeDocumentClickHandler();
+    document.removeEventListener("keydown", this.boundHandleKeydown);
+    window.removeEventListener("resize", this.boundHandleResize);
+    cancelAnimationFrame(this.resizeRafId);
     this.cleanupInputElements();
   }
 
@@ -419,7 +421,6 @@ export class DatetimePicker extends LitElement {
     for (const input of document.querySelectorAll(
       "input[data-recomped-datetime-picker]"
     )) {
-      console.log(input);
       if (input instanceof HTMLInputElement) {
         this.setupInput(input);
       }
@@ -467,6 +468,10 @@ export class DatetimePicker extends LitElement {
   }
 
   public open(input: HTMLInputElement) {
+    if (this.disabled) return;
+    if (this.isOpen && input === this.targetInput) return;
+    if (this.isOpen) this.closePicker();
+
     this.targetInput = input;
     this.isOpen = true;
 
@@ -492,6 +497,8 @@ export class DatetimePicker extends LitElement {
 
     this.updatePickerPosition(input);
     this.addDocumentClickHandler();
+    document.addEventListener("keydown", this.boundHandleKeydown);
+    window.addEventListener("resize", this.boundHandleResize);
   }
 
   private updatePickerPosition(input: HTMLInputElement) {
@@ -501,16 +508,26 @@ export class DatetimePicker extends LitElement {
     ) as HTMLElement;
     if (!picker) return;
 
-    console.log(picker);
-
     const viewportHeight = window.innerHeight;
+    const viewportWidth = window.innerWidth;
     const pickerHeight = picker.offsetHeight;
+    const pickerWidth = picker.offsetWidth;
 
-    picker.style.left = `${rect.left}px`;
+    // 横位置: 左右はみ出し対応
+    let left = rect.left + window.scrollX;
+    if (rect.left + pickerWidth > viewportWidth) {
+      left = rect.right + window.scrollX - pickerWidth;
+    }
+    if (left < window.scrollX) {
+      left = window.scrollX;
+    }
+    picker.style.left = `${left}px`;
+
+    // 縦位置: 下方向に収まらない場合は上方向に配置
     if (rect.bottom + pickerHeight > viewportHeight) {
-      picker.style.top = `${rect.top - pickerHeight - 8}px`;
+      picker.style.top = `${rect.top + window.scrollY - pickerHeight - 8}px`;
     } else {
-      picker.style.top = `${rect.bottom + 8}px`;
+      picker.style.top = `${rect.bottom + window.scrollY + 8}px`;
     }
   }
 
@@ -620,11 +637,29 @@ export class DatetimePicker extends LitElement {
   private closePicker() {
     this.isOpen = false;
     this.removeDocumentClickHandler();
+    document.removeEventListener("keydown", this.boundHandleKeydown);
+    window.removeEventListener("resize", this.boundHandleResize);
+    cancelAnimationFrame(this.resizeRafId);
     // ピッカーを閉じる時に選択状態をリセット
     this.selectedDate = undefined;
     this.selectedHour = undefined;
     this.selectedMinute = undefined;
     this.targetInput = null;
+  }
+
+  private handleKeydown(e: KeyboardEvent) {
+    if (e.key === "Escape") {
+      this.closePicker();
+    }
+  }
+
+  private handleResize() {
+    cancelAnimationFrame(this.resizeRafId);
+    this.resizeRafId = requestAnimationFrame(() => {
+      if (this.targetInput) {
+        this.updatePickerPosition(this.targetInput);
+      }
+    });
   }
 
   // ----------------------------------------
