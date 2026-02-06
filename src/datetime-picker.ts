@@ -419,7 +419,6 @@ export class DatetimePicker extends LitElement {
     for (const input of document.querySelectorAll(
       "input[data-recomped-datetime-picker]"
     )) {
-      console.log(input);
       if (input instanceof HTMLInputElement) {
         this.setupInput(input);
       }
@@ -500,8 +499,6 @@ export class DatetimePicker extends LitElement {
       ".picker-container"
     ) as HTMLElement;
     if (!picker) return;
-
-    console.log(picker);
 
     const viewportHeight = window.innerHeight;
     const pickerHeight = picker.offsetHeight;

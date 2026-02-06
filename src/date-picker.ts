@@ -279,7 +279,6 @@ export class DatePicker extends LitElement {
   }
 
   public open(input: HTMLInputElement) {
-    console.log("open");
     this.targetInput = input;
     this.isOpen = true;
 
@@ -297,20 +296,15 @@ export class DatePicker extends LitElement {
       this.lastValidDate = null;
     }
 
-    console.log("open2");
     this.updatePickerPosition(input);
     this.addDocumentClickHandler();
   }
 
   private updatePickerPosition(input: HTMLInputElement) {
-    console.log("updatePickerPosition");
     const rect = input.getBoundingClientRect();
     const picker = this.shadowRoot?.querySelector(
       ".picker-container"
     ) as HTMLElement;
-    console.log("updatePickerPosition2");
-    // .picker-containerがなさそう。
-    console.log(picker);
     if (!picker) return;
 
     const viewportHeight = window.innerHeight;
